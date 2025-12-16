@@ -497,16 +497,16 @@
 
     <!-- Theme Control Buttons -->
     <div class="theme-controls">
-        <button class="theme-btn active" onclick="setTheme('summer')">Summer</button>
-        <button class="theme-btn" onclick="setTheme('winter')">Winter</button>
-        <button class="theme-btn" onclick="setTheme('spring')">Spring</button>
-        <button class="theme-btn" onclick="setTheme('autumn')">Autumn</button>
-        <button class="theme-btn" onclick="setTheme('space')">Space</button>
+        <button class="theme-btn active" onclick="setTheme('summer', this)">Summer</button>
+        <button class="theme-btn" onclick="setTheme('winter', this)">Winter</button>
+        <button class="theme-btn" onclick="setTheme('spring', this)">Spring</button>
+        <button class="theme-btn" onclick="setTheme('autumn', this)">Autumn</button>
+        <button class="theme-btn" onclick="setTheme('space', this)">Space</button>
     </div>
 
     <script>
         // Minimal JavaScript for theme switching only
-        function setTheme(theme) {
+        function setTheme(theme, clickedButton) {
             const background = document.getElementById('background');
             const effects = document.getElementById('effects');
             
@@ -522,7 +522,7 @@
             document.querySelectorAll('.theme-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.classList.add('active');
+            clickedButton.classList.add('active');
         }
     </script>
 </body>
