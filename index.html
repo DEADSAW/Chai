@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chai - Minimalist Animation</title>
+    <title>Chai - A Visual Love Letter</title>
     <style>
-        /* ===== GLOBAL STYLES ===== */
+        /* ===== GLOBAL RESET ===== */
         * {
             margin: 0;
             padding: 0;
@@ -13,289 +13,517 @@
         }
 
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8eef3 100%);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            padding: 20px;
-        }
-
-        .scene-container {
-            width: 100%;
-            max-width: 800px;
-            height: auto;
-            aspect-ratio: 4 / 3;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Segoe UI Emoji', sans-serif;
             position: relative;
         }
 
-        /* ===== SVG CONTAINER ===== */
-        svg {
+        /* ===== BACKGROUND CONTAINER ===== */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.05));
+            transition: background 1.5s ease-in-out;
+            z-index: 1;
         }
 
-        /* ===== ANIMATION: STEAM RISING FROM CHAI ===== 
-         * Creates organic upward movement with horizontal drift
-         * Opacity fades from 0.6 to 0 for natural dissipation
-         * Each steam particle has staggered timing for realism
-         */
+        /* ===== THEME BACKGROUNDS ===== */
+        .background.summer {
+            background: linear-gradient(180deg, #FFE5B4 0%, #FFD700 30%, #FFA500 100%);
+        }
+
+        .background.winter {
+            background: linear-gradient(180deg, #E0E8F0 0%, #C8D6E5 50%, #B0C4D8 100%);
+        }
+
+        .background.spring {
+            background: linear-gradient(180deg, #E8F5E9 0%, #C8E6C9 50%, #A5D6A7 100%);
+        }
+
+        .background.autumn {
+            background: linear-gradient(180deg, #FFEBCD 0%, #DEB887 50%, #D2691E 100%);
+        }
+
+        .background.space {
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0f0f1e 50%, #050510 100%);
+        }
+
+        /* ===== BACKGROUND EFFECTS CONTAINER ===== */
+        .effects-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        /* ===== SUMMER EFFECTS ===== */
+        .heat-haze {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(0deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+            animation: haze 4s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        .summer .heat-haze {
+            opacity: 1;
+        }
+
+        @keyframes haze {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(-20px) scaleY(1.1); }
+        }
+
+        .condensation {
+            position: absolute;
+            width: 6px;
+            height: 8px;
+            background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: drip 8s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        .summer .condensation {
+            opacity: 1;
+        }
+
+        .condensation:nth-child(1) { left: 48%; top: 35%; animation-delay: 0s; }
+        .condensation:nth-child(2) { left: 52%; top: 40%; animation-delay: 2s; }
+        .condensation:nth-child(3) { left: 47%; top: 45%; animation-delay: 4s; }
+
+        @keyframes drip {
+            0% { transform: translateY(0) scale(0); opacity: 0; }
+            10% { transform: translateY(0) scale(1); opacity: 0.7; }
+            90% { transform: translateY(80px) scale(1); opacity: 0.7; }
+            100% { transform: translateY(100px) scale(0); opacity: 0; }
+        }
+
+        /* ===== WINTER EFFECTS (SNOW) ===== */
+        .snowflake {
+            position: absolute;
+            color: #fff;
+            font-size: 1em;
+            top: -10%;
+            opacity: 0;
+            animation: snowfall 12s linear infinite;
+        }
+
+        .winter .snowflake {
+            opacity: 0.8;
+        }
+
+        @keyframes snowfall {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        .snowflake:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 10s; }
+        .snowflake:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 12s; }
+        .snowflake:nth-child(3) { left: 30%; animation-delay: 4s; animation-duration: 11s; }
+        .snowflake:nth-child(4) { left: 40%; animation-delay: 1s; animation-duration: 13s; }
+        .snowflake:nth-child(5) { left: 60%; animation-delay: 3s; animation-duration: 10s; }
+        .snowflake:nth-child(6) { left: 70%; animation-delay: 5s; animation-duration: 12s; }
+        .snowflake:nth-child(7) { left: 80%; animation-delay: 2.5s; animation-duration: 11s; }
+        .snowflake:nth-child(8) { left: 90%; animation-delay: 4.5s; animation-duration: 13s; }
+
+        /* ===== SPRING EFFECTS (LEAVES/PLANTS) ===== */
+        .spring-leaf {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            opacity: 0;
+        }
+
+        .spring .spring-leaf {
+            opacity: 0.6;
+            animation: leaf-grow 3s ease-out forwards;
+        }
+
+        .spring-leaf:nth-child(1) { bottom: 10%; left: 5%; animation-delay: 0.5s; }
+        .spring-leaf:nth-child(2) { bottom: 20%; right: 8%; animation-delay: 1s; }
+        .spring-leaf:nth-child(3) { bottom: 5%; left: 15%; animation-delay: 1.5s; }
+
+        @keyframes leaf-grow {
+            from { transform: scale(0) rotate(-20deg); }
+            to { transform: scale(1) rotate(0deg); }
+        }
+
+        .bird {
+            position: absolute;
+            opacity: 0;
+            animation: bird-fly 15s ease-in-out infinite;
+        }
+
+        .spring .bird {
+            opacity: 0.4;
+        }
+
+        .bird:nth-child(4) { top: 15%; animation-delay: 0s; }
+        .bird:nth-child(5) { top: 25%; animation-delay: 7s; }
+
+        @keyframes bird-fly {
+            0% { transform: translateX(-10vw); }
+            100% { transform: translateX(110vw); }
+        }
+
+        /* ===== AUTUMN EFFECTS (FALLING LEAVES) ===== */
+        .autumn-leaf {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: -5%;
+            opacity: 0;
+            animation: leaf-fall 10s ease-in infinite;
+        }
+
+        .autumn .autumn-leaf {
+            opacity: 0.7;
+        }
+
+        @keyframes leaf-fall {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); }
+            100% { transform: translateY(110vh) translateX(100px) rotate(720deg); }
+        }
+
+        .autumn-leaf:nth-child(1) { left: 15%; animation-delay: 0s; animation-duration: 9s; }
+        .autumn-leaf:nth-child(2) { left: 30%; animation-delay: 2s; animation-duration: 11s; }
+        .autumn-leaf:nth-child(3) { left: 50%; animation-delay: 4s; animation-duration: 10s; }
+        .autumn-leaf:nth-child(4) { left: 70%; animation-delay: 1s; animation-duration: 12s; }
+        .autumn-leaf:nth-child(5) { left: 85%; animation-delay: 3s; animation-duration: 9.5s; }
+
+        /* ===== SPACE EFFECTS (STARS) ===== */
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .space .star {
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .star:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+        .star:nth-child(2) { top: 20%; left: 30%; animation-delay: 0.5s; }
+        .star:nth-child(3) { top: 15%; left: 60%; animation-delay: 1s; }
+        .star:nth-child(4) { top: 30%; left: 80%; animation-delay: 1.5s; }
+        .star:nth-child(5) { top: 50%; left: 20%; animation-delay: 2s; }
+        .star:nth-child(6) { top: 60%; left: 70%; animation-delay: 2.5s; }
+        .star:nth-child(7) { top: 70%; left: 40%; animation-delay: 0.7s; }
+        .star:nth-child(8) { top: 80%; left: 85%; animation-delay: 1.2s; }
+        .star:nth-child(9) { top: 25%; left: 45%; animation-delay: 1.8s; }
+        .star:nth-child(10) { top: 65%; left: 55%; animation-delay: 2.2s; }
+
+        /* ===== CHAI GLASS CONTAINER (ALWAYS CENTERED) ===== */
+        .chai-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            width: 200px;
+            height: 300px;
+        }
+
+        /* ===== STEAM ANIMATION ===== */
         @keyframes steam-rise {
             0% {
                 transform: translateY(0) translateX(0) scale(1);
-                opacity: 0.6;
+                opacity: 0.7;
             }
             50% {
-                transform: translateY(-40px) translateX(8px) scale(1.2);
+                transform: translateY(-80px) translateX(10px) scale(1.3);
                 opacity: 0.4;
             }
             100% {
-                transform: translateY(-80px) translateX(-5px) scale(1.5);
+                transform: translateY(-160px) translateX(-8px) scale(1.6);
                 opacity: 0;
             }
         }
 
         .steam-particle {
-            animation: steam-rise 3s ease-in-out infinite;
+            animation: steam-rise 4s ease-out infinite;
         }
 
-        /* Staggered timing for each steam particle */
-        .steam-particle:nth-child(1) {
-            animation-delay: 0s;
+        .steam-particle:nth-child(1) { animation-delay: 0s; }
+        .steam-particle:nth-child(2) { animation-delay: 0.5s; }
+        .steam-particle:nth-child(3) { animation-delay: 1s; }
+        .steam-particle:nth-child(4) { animation-delay: 1.5s; }
+        .steam-particle:nth-child(5) { animation-delay: 2s; }
+        .steam-particle:nth-child(6) { animation-delay: 2.5s; }
+        .steam-particle:nth-child(7) { animation-delay: 3s; }
+        .steam-particle:nth-child(8) { animation-delay: 3.5s; }
+
+        /* ===== THEME CONTROLS ===== */
+        .theme-controls {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
         }
 
-        .steam-particle:nth-child(2) {
-            animation-delay: 0.4s;
+        .theme-btn {
+            padding: 10px 20px;
+            border: 2px solid transparent;
+            background: transparent;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            transition: all 0.3s ease;
+            outline: none;
         }
 
-        .steam-particle:nth-child(3) {
-            animation-delay: 0.8s;
+        .theme-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
         }
 
-        .steam-particle:nth-child(4) {
-            animation-delay: 1.2s;
+        .theme-btn.active {
+            background: #333;
+            color: white;
+            border-color: #333;
         }
 
-        .steam-particle:nth-child(5) {
-            animation-delay: 1.6s;
-        }
-
-        .steam-particle:nth-child(6) {
-            animation-delay: 2s;
-        }
-
-        .steam-particle:nth-child(7) {
-            animation-delay: 2.4s;
-        }
-
-        /* ===== ANIMATION: LEG SWING ===== 
-         * Pendulum-style rotation from the hip joint
-         * Small angle rotation for relaxed, natural movement
-         * Uses cubic-bezier for smooth, realistic swing
-         */
-        @keyframes leg-swing {
-            0%, 100% {
-                transform: rotate(-5deg);
+        /* Responsive */
+        @media (max-width: 768px) {
+            .theme-controls {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 12px 15px;
+                bottom: 20px;
             }
-            50% {
-                transform: rotate(5deg);
+            
+            .theme-btn {
+                padding: 8px 15px;
+                font-size: 12px;
             }
-        }
-
-        .left-leg {
-            transform-origin: 402px 280px; /* Hip joint position (center of leg at x=395+7) */
-            animation: leg-swing 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-        }
-
-        .right-leg {
-            transform-origin: 422px 280px; /* Hip joint position (center of leg at x=415+7) */
-            animation: leg-swing 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-            animation-delay: 0.15s; /* Slight offset for natural asymmetry */
-        }
-
-        /* ===== ANIMATION: BODY IDLE ===== 
-         * Subtle vertical movement simulating breathing
-         * Very small amplitude to maintain calm aesthetic
-         * Slow timing for relaxed, natural feel
-         */
-        @keyframes body-idle {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-3px);
-            }
-        }
-
-        .upper-body {
-            animation: body-idle 4s ease-in-out infinite;
-        }
-
-        /* ===== ANIMATION: GENTLE FLOATING ===== 
-         * Adds subtle floating effect to the entire scene
-         * Creates depth and enhances premium feel
-         */
-        @keyframes scene-float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-
-        .floating-scene {
-            animation: scene-float 6s ease-in-out infinite;
         }
     </style>
 </head>
 <body>
-    <div class="scene-container">
-        <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Layer -->
+    <div class="background summer" id="background"></div>
+
+    <!-- Effects Layer -->
+    <div class="effects-layer" id="effects">
+        <!-- Summer effects -->
+        <div class="heat-haze"></div>
+        <div class="condensation"></div>
+        <div class="condensation"></div>
+        <div class="condensation"></div>
+
+        <!-- Winter effects (snowflakes) -->
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❄</div>
+
+        <!-- Spring effects -->
+        <svg class="spring-leaf" viewBox="0 0 40 40">
+            <path d="M20 5 Q 10 15 20 35 Q 30 15 20 5" fill="#81C784" opacity="0.7"/>
+        </svg>
+        <svg class="spring-leaf" viewBox="0 0 40 40">
+            <path d="M20 5 Q 10 15 20 35 Q 30 15 20 5" fill="#66BB6A" opacity="0.7"/>
+        </svg>
+        <svg class="spring-leaf" viewBox="0 0 40 40">
+            <path d="M20 5 Q 10 15 20 35 Q 30 15 20 5" fill="#4CAF50" opacity="0.7"/>
+        </svg>
+        <svg class="bird" width="30" height="20" viewBox="0 0 30 20">
+            <path d="M5 10 Q 10 5 15 10 Q 20 5 25 10" stroke="#333" stroke-width="2" fill="none" opacity="0.6"/>
+        </svg>
+        <svg class="bird" width="30" height="20" viewBox="0 0 30 20">
+            <path d="M5 10 Q 10 5 15 10 Q 20 5 25 10" stroke="#333" stroke-width="2" fill="none" opacity="0.6"/>
+        </svg>
+
+        <!-- Autumn effects (falling leaves) -->
+        <svg class="autumn-leaf" viewBox="0 0 20 20">
+            <path d="M10 2 L 15 10 L 10 18 L 5 10 Z" fill="#D2691E" opacity="0.8"/>
+        </svg>
+        <svg class="autumn-leaf" viewBox="0 0 20 20">
+            <path d="M10 2 L 15 10 L 10 18 L 5 10 Z" fill="#CD853F" opacity="0.8"/>
+        </svg>
+        <svg class="autumn-leaf" viewBox="0 0 20 20">
+            <path d="M10 2 L 15 10 L 10 18 L 5 10 Z" fill="#DEB887" opacity="0.8"/>
+        </svg>
+        <svg class="autumn-leaf" viewBox="0 0 20 20">
+            <path d="M10 2 L 15 10 L 10 18 L 5 10 Z" fill="#8B4513" opacity="0.8"/>
+        </svg>
+        <svg class="autumn-leaf" viewBox="0 0 20 20">
+            <path d="M10 2 L 15 10 L 10 18 L 5 10 Z" fill="#A0522D" opacity="0.8"/>
+        </svg>
+
+        <!-- Space effects (stars) -->
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+
+    <!-- Chai Glass (ALWAYS CENTERED, NEVER MOVES) -->
+    <div class="chai-container">
+        <svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <!-- Gradient for table surface -->
-                <linearGradient id="tableGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+                <!-- Glass gradient with transparency -->
+                <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.5" />
+                    <stop offset="50%" style="stop-color:#e8f4f8;stop-opacity:0.2" />
+                    <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.4" />
+                </linearGradient>
+
+                <!-- Brown chai gradient -->
+                <linearGradient id="chaiGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#A0522D;stop-opacity:0.95" />
+                    <stop offset="50%" style="stop-color:#8B4513;stop-opacity:0.98" />
                     <stop offset="100%" style="stop-color:#654321;stop-opacity:1" />
                 </linearGradient>
-                
-                <!-- Gradient for glass cup (transparent with subtle shine) -->
-                <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.4" />
-                    <stop offset="50%" style="stop-color:#e8f4f8;stop-opacity:0.2" />
-                    <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.3" />
-                </linearGradient>
 
-                <!-- Gradient for brown chai liquid -->
-                <linearGradient id="chaiGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#8B4513;stop-opacity:0.9" />
-                    <stop offset="50%" style="stop-color:#A0522D;stop-opacity:0.95" />
-                    <stop offset="100%" style="stop-color:#6B3410;stop-opacity:1" />
-                </linearGradient>
-
-                <!-- Gradient for skin tone -->
-                <linearGradient id="skinGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#f4c2a5;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#d4a88e;stop-opacity:1" />
-                </linearGradient>
+                <!-- Glass shine -->
+                <radialGradient id="shine">
+                    <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.8" />
+                    <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+                </radialGradient>
             </defs>
 
-            <!-- Background elements for depth -->
-            <circle cx="150" cy="100" r="80" fill="#e0e8f0" opacity="0.3"/>
-            <circle cx="650" cy="120" r="60" fill="#d0dce8" opacity="0.25"/>
-
-            <g class="floating-scene">
-                <!-- Table -->
-                <g class="table">
-                    <!-- Table top -->
-                    <rect x="200" y="300" width="400" height="20" rx="4" fill="url(#tableGradient)"/>
-                    <!-- Table legs -->
-                    <rect x="220" y="320" width="15" height="180" rx="3" fill="#654321"/>
-                    <rect x="565" y="320" width="15" height="180" rx="3" fill="#654321"/>
-                    <!-- Wood texture details -->
-                    <line x1="210" y1="305" x2="590" y2="305" stroke="#5a3a1a" stroke-width="1" opacity="0.3"/>
-                    <line x1="210" y1="315" x2="590" y2="315" stroke="#5a3a1a" stroke-width="1" opacity="0.3"/>
+            <!-- Traditional Indian cut-glass chai glass -->
+            <g class="chai-glass">
+                <!-- Glass body - left wall -->
+                <path d="M 60 100 L 50 240 L 58 240 L 68 100 Z" 
+                      fill="url(#glassGradient)" 
+                      stroke="#b8d4e0" 
+                      stroke-width="2" 
+                      opacity="0.7"/>
+                
+                <!-- Glass body - right wall -->
+                <path d="M 140 100 L 150 240 L 142 240 L 132 100 Z" 
+                      fill="url(#glassGradient)" 
+                      stroke="#b8d4e0" 
+                      stroke-width="2" 
+                      opacity="0.7"/>
+                
+                <!-- Cut glass pattern (diamond cuts) -->
+                <line x1="65" y1="130" x2="135" y2="130" stroke="#d0e8f0" stroke-width="1" opacity="0.4"/>
+                <line x1="63" y1="160" x2="137" y2="160" stroke="#d0e8f0" stroke-width="1" opacity="0.4"/>
+                <line x1="61" y1="190" x2="139" y2="190" stroke="#d0e8f0" stroke-width="1" opacity="0.4"/>
+                <line x1="59" y1="220" x2="141" y2="220" stroke="#d0e8f0" stroke-width="1" opacity="0.4"/>
+                
+                <!-- Glass bottom -->
+                <ellipse cx="100" cy="240" rx="50" ry="8" 
+                         fill="#ffffff" 
+                         stroke="#b8d4e0" 
+                         stroke-width="2" 
+                         opacity="0.4"/>
+                
+                <!-- Brown chai liquid -->
+                <ellipse cx="100" cy="170" rx="40" ry="7" fill="url(#chaiGradient)"/>
+                <path d="M 60 170 L 55 235 Q 100 245 145 235 L 140 170 Z" fill="url(#chaiGradient)"/>
+                
+                <!-- Chai surface (top of liquid) -->
+                <ellipse cx="100" cy="170" rx="40" ry="7" fill="#A0522D" opacity="0.3"/>
+                
+                <!-- Glass rim (top) -->
+                <ellipse cx="100" cy="100" rx="45" ry="8" 
+                         fill="none" 
+                         stroke="#b8d4e0" 
+                         stroke-width="2.5" 
+                         opacity="0.8"/>
+                <ellipse cx="100" cy="100" rx="42" ry="6" 
+                         fill="#ffffff" 
+                         opacity="0.2"/>
+                
+                <!-- Glass highlights/shine -->
+                <ellipse cx="70" cy="150" rx="12" ry="40" fill="url(#shine)" opacity="0.6"/>
+                <ellipse cx="130" cy="160" rx="8" ry="30" fill="url(#shine)" opacity="0.5"/>
+                <circle cx="75" cy="120" r="8" fill="#ffffff" opacity="0.7"/>
+                
+                <!-- Steam rising from chai -->
+                <g class="steam">
+                    <path class="steam-particle" d="M 85 90 Q 80 70 85 50" 
+                          fill="none" stroke="#e0e0e0" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                    <path class="steam-particle" d="M 100 90 Q 105 70 100 50" 
+                          fill="none" stroke="#d8d8d8" stroke-width="3.5" stroke-linecap="round" opacity="0.7"/>
+                    <path class="steam-particle" d="M 115 90 Q 120 70 115 50" 
+                          fill="none" stroke="#e0e0e0" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                    <path class="steam-particle" d="M 92 92 Q 87 72 92 52" 
+                          fill="none" stroke="#d0d0d0" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+                    <path class="steam-particle" d="M 108 92 Q 113 72 108 52" 
+                          fill="none" stroke="#d8d8d8" stroke-width="3.2" stroke-linecap="round" opacity="0.7"/>
+                    <path class="steam-particle" d="M 95 88 Q 90 68 95 48" 
+                          fill="none" stroke="#e0e0e0" stroke-width="2.8" stroke-linecap="round" opacity="0.7"/>
+                    <path class="steam-particle" d="M 105 88 Q 110 68 105 48" 
+                          fill="none" stroke="#d8d8d8" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                    <path class="steam-particle" d="M 100 85 Q 95 65 100 45" 
+                          fill="none" stroke="#e0e0e0" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
                 </g>
-
-                <!-- Chai cup on table - Traditional Indian glass style -->
-                <g class="chai-cup">
-                    <!-- Glass cup body - transparent cylindrical shape (much larger) -->
-                    <!-- Outer glass wall (left side) -->
-                    <path d="M 430 180 L 420 280 L 425 280 L 435 180 Z" 
-                          fill="url(#glassGradient)" stroke="#b8d4e0" stroke-width="1.5" opacity="0.6"/>
-                    
-                    <!-- Outer glass wall (right side) -->
-                    <path d="M 570 180 L 575 280 L 580 280 L 565 180 Z" 
-                          fill="url(#glassGradient)" stroke="#b8d4e0" stroke-width="1.5" opacity="0.6"/>
-                    
-                    <!-- Glass bottom -->
-                    <ellipse cx="500" cy="280" rx="80" ry="12" 
-                             fill="#ffffff" stroke="#b8d4e0" stroke-width="1.5" opacity="0.3"/>
-                    
-                    <!-- Brown chai liquid inside glass -->
-                    <ellipse cx="500" cy="230" rx="70" ry="10" fill="url(#chaiGradient)"/>
-                    <path d="M 430 230 L 425 275 Q 500 285 575 275 L 570 230 Z" fill="url(#chaiGradient)"/>
-                    
-                    <!-- Glass rim (top opening) -->
-                    <ellipse cx="500" cy="180" rx="72" ry="10" 
-                             fill="none" stroke="#b8d4e0" stroke-width="2" opacity="0.7"/>
-                    <ellipse cx="500" cy="180" rx="70" ry="9" 
-                             fill="#ffffff" opacity="0.15"/>
-                    
-                    <!-- Glass shine/highlight effects -->
-                    <ellipse cx="450" cy="220" rx="8" ry="25" fill="#ffffff" opacity="0.4"/>
-                    <ellipse cx="555" cy="235" rx="6" ry="20" fill="#ffffff" opacity="0.3"/>
-                    
-                    <!-- Glass cup shadow on table -->
-                    <ellipse cx="500" cy="295" rx="85" ry="8" fill="#000000" opacity="0.1"/>
-                    
-                    <!-- Steam particles rising from hot chai -->
-                    <g class="steam">
-                        <path class="steam-particle" d="M 480 170 Q 475 150 480 130" 
-                              fill="none" stroke="#d4d8dc" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
-                        <path class="steam-particle" d="M 500 170 Q 505 150 500 130" 
-                              fill="none" stroke="#d4d8dc" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
-                        <path class="steam-particle" d="M 520 170 Q 525 150 520 130" 
-                              fill="none" stroke="#d4d8dc" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
-                        <path class="steam-particle" d="M 490 172 Q 485 152 490 132" 
-                              fill="none" stroke="#d4d8dc" stroke-width="2.2" stroke-linecap="round" opacity="0.6"/>
-                        <path class="steam-particle" d="M 510 172 Q 515 152 510 132" 
-                              fill="none" stroke="#d4d8dc" stroke-width="2.8" stroke-linecap="round" opacity="0.6"/>
-                        <path class="steam-particle" d="M 495 168 Q 490 148 495 128" 
-                              fill="none" stroke="#d4d8dc" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-                        <path class="steam-particle" d="M 505 168 Q 510 148 505 128" 
-                              fill="none" stroke="#d4d8dc" stroke-width="2.4" stroke-linecap="round" opacity="0.6"/>
-                    </g>
-                </g>
-
-                <!-- Person sitting on table edge -->
-                <g class="person">
-                    <!-- Upper body (torso, arms, head) - has idle breathing animation -->
-                    <g class="upper-body">
-                        <!-- Head -->
-                        <circle cx="410" cy="200" r="30" fill="url(#skinGradient)"/>
-                        <!-- Hair -->
-                        <path d="M 385 190 Q 385 170 410 170 Q 435 170 435 190 Z" fill="#2c1810"/>
-                        <!-- Face details -->
-                        <circle cx="400" cy="200" r="2" fill="#1a1a1a"/>
-                        <circle cx="420" cy="200" r="2" fill="#1a1a1a"/>
-                        <path d="M 405 210 Q 410 213 415 210" fill="none" stroke="#c98a6f" stroke-width="1.5"/>
-                        
-                        <!-- Torso -->
-                        <rect x="385" y="230" width="50" height="60" rx="8" fill="#4a5c6a"/>
-                        <!-- Arms -->
-                        <rect x="370" y="240" width="12" height="50" rx="6" fill="#4a5c6a"/>
-                        <rect x="438" y="240" width="12" height="50" rx="6" fill="#4a5c6a"/>
-                        <!-- Hands on table edge -->
-                        <ellipse cx="376" cy="295" rx="8" ry="6" fill="url(#skinGradient)"/>
-                        <ellipse cx="444" cy="295" rx="8" ry="6" fill="url(#skinGradient)"/>
-                        <!-- Shirt details -->
-                        <line x1="410" y1="232" x2="410" y2="270" stroke="#3a4c5a" stroke-width="1" opacity="0.5"/>
-                    </g>
-
-                    <!-- Left leg - swings with animation -->
-                    <g class="left-leg">
-                        <rect x="395" y="280" width="14" height="70" rx="7" fill="#2c3e50"/>
-                        <rect x="395" y="350" width="14" height="40" rx="4" fill="url(#skinGradient)"/>
-                        <!-- Shoe -->
-                        <ellipse cx="402" cy="395" rx="16" ry="8" fill="#1a1a1a"/>
-                    </g>
-
-                    <!-- Right leg - swings with animation (slightly offset) -->
-                    <g class="right-leg">
-                        <rect x="415" y="280" width="14" height="70" rx="7" fill="#2c3e50"/>
-                        <rect x="415" y="350" width="14" height="40" rx="4" fill="url(#skinGradient)"/>
-                        <!-- Shoe -->
-                        <ellipse cx="422" cy="395" rx="16" ry="8" fill="#1a1a1a"/>
-                    </g>
-                </g>
-
-                <!-- Shadows for depth -->
-                <ellipse cx="410" cy="505" rx="60" ry="8" fill="#000000" opacity="0.08"/>
             </g>
         </svg>
     </div>
+
+    <!-- Theme Control Buttons -->
+    <div class="theme-controls">
+        <button class="theme-btn active" onclick="setTheme('summer')">Summer</button>
+        <button class="theme-btn" onclick="setTheme('winter')">Winter</button>
+        <button class="theme-btn" onclick="setTheme('spring')">Spring</button>
+        <button class="theme-btn" onclick="setTheme('autumn')">Autumn</button>
+        <button class="theme-btn" onclick="setTheme('space')">Space</button>
+    </div>
+
+    <script>
+        // Minimal JavaScript for theme switching only
+        function setTheme(theme) {
+            const background = document.getElementById('background');
+            const effects = document.getElementById('effects');
+            
+            // Remove all theme classes
+            background.className = 'background';
+            effects.className = 'effects-layer';
+            
+            // Add selected theme
+            background.classList.add(theme);
+            effects.classList.add(theme);
+            
+            // Update active button
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+    </script>
 </body>
 </html>
