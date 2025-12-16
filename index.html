@@ -67,19 +67,27 @@
         }
 
         .steam-particle:nth-child(2) {
-            animation-delay: 0.5s;
+            animation-delay: 0.4s;
         }
 
         .steam-particle:nth-child(3) {
-            animation-delay: 1s;
+            animation-delay: 0.8s;
         }
 
         .steam-particle:nth-child(4) {
-            animation-delay: 1.5s;
+            animation-delay: 1.2s;
         }
 
         .steam-particle:nth-child(5) {
+            animation-delay: 1.6s;
+        }
+
+        .steam-particle:nth-child(6) {
             animation-delay: 2s;
+        }
+
+        .steam-particle:nth-child(7) {
+            animation-delay: 2.4s;
         }
 
         /* ===== ANIMATION: LEG SWING ===== 
@@ -153,16 +161,18 @@
                     <stop offset="100%" style="stop-color:#654321;stop-opacity:1" />
                 </linearGradient>
                 
-                <!-- Gradient for chai cup -->
-                <linearGradient id="cupGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#d4a574;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#b8885e;stop-opacity:1" />
+                <!-- Gradient for glass cup (transparent with subtle shine) -->
+                <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.4" />
+                    <stop offset="50%" style="stop-color:#e8f4f8;stop-opacity:0.2" />
+                    <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.3" />
                 </linearGradient>
 
-                <!-- Gradient for chai liquid -->
+                <!-- Gradient for brown chai liquid -->
                 <linearGradient id="chaiGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#c97a3d;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#a65a2a;stop-opacity:1" />
+                    <stop offset="0%" style="stop-color:#8B4513;stop-opacity:0.9" />
+                    <stop offset="50%" style="stop-color:#A0522D;stop-opacity:0.95" />
+                    <stop offset="100%" style="stop-color:#6B3410;stop-opacity:1" />
                 </linearGradient>
 
                 <!-- Gradient for skin tone -->
@@ -189,32 +199,54 @@
                     <line x1="210" y1="315" x2="590" y2="315" stroke="#5a3a1a" stroke-width="1" opacity="0.3"/>
                 </g>
 
-                <!-- Chai cup on table -->
+                <!-- Chai cup on table - Traditional Indian glass style -->
                 <g class="chai-cup">
-                    <!-- Cup body - trapezoid shape (wider at bottom for perspective) -->
-                    <path d="M 479 260 L 470 290 L 530 290 L 521 260 Z" fill="url(#cupGradient)"/>
-                    <!-- Cup rim highlight -->
-                    <ellipse cx="500" cy="260" rx="21" ry="4" fill="#e8c9a0"/>
-                    <!-- Chai liquid inside -->
-                    <ellipse cx="500" cy="263" rx="18" ry="3" fill="url(#chaiGradient)"/>
-                    <!-- Cup handle -->
-                    <path d="M 530 270 Q 550 270 550 280 Q 550 285 530 285" 
-                          fill="none" stroke="url(#cupGradient)" stroke-width="4"/>
-                    <!-- Cup shadow -->
-                    <ellipse cx="500" cy="295" rx="25" ry="4" fill="#000000" opacity="0.1"/>
+                    <!-- Glass cup body - transparent cylindrical shape (much larger) -->
+                    <!-- Outer glass wall (left side) -->
+                    <path d="M 430 180 L 420 280 L 425 280 L 435 180 Z" 
+                          fill="url(#glassGradient)" stroke="#b8d4e0" stroke-width="1.5" opacity="0.6"/>
                     
-                    <!-- Steam particles rising from chai -->
+                    <!-- Outer glass wall (right side) -->
+                    <path d="M 570 180 L 575 280 L 580 280 L 565 180 Z" 
+                          fill="url(#glassGradient)" stroke="#b8d4e0" stroke-width="1.5" opacity="0.6"/>
+                    
+                    <!-- Glass bottom -->
+                    <ellipse cx="500" cy="280" rx="80" ry="12" 
+                             fill="#ffffff" stroke="#b8d4e0" stroke-width="1.5" opacity="0.3"/>
+                    
+                    <!-- Brown chai liquid inside glass -->
+                    <ellipse cx="500" cy="230" rx="70" ry="10" fill="url(#chaiGradient)"/>
+                    <path d="M 430 230 L 425 275 Q 500 285 575 275 L 570 230 Z" fill="url(#chaiGradient)"/>
+                    
+                    <!-- Glass rim (top opening) -->
+                    <ellipse cx="500" cy="180" rx="72" ry="10" 
+                             fill="none" stroke="#b8d4e0" stroke-width="2" opacity="0.7"/>
+                    <ellipse cx="500" cy="180" rx="70" ry="9" 
+                             fill="#ffffff" opacity="0.15"/>
+                    
+                    <!-- Glass shine/highlight effects -->
+                    <ellipse cx="450" cy="220" rx="8" ry="25" fill="#ffffff" opacity="0.4"/>
+                    <ellipse cx="555" cy="235" rx="6" ry="20" fill="#ffffff" opacity="0.3"/>
+                    
+                    <!-- Glass cup shadow on table -->
+                    <ellipse cx="500" cy="295" rx="85" ry="8" fill="#000000" opacity="0.1"/>
+                    
+                    <!-- Steam particles rising from hot chai -->
                     <g class="steam">
-                        <path class="steam-particle" d="M 495 250 Q 490 240 495 230" 
-                              fill="none" stroke="#d4d8dc" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-                        <path class="steam-particle" d="M 500 250 Q 505 240 500 230" 
+                        <path class="steam-particle" d="M 480 170 Q 475 150 480 130" 
                               fill="none" stroke="#d4d8dc" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
-                        <path class="steam-particle" d="M 505 250 Q 510 240 505 230" 
-                              fill="none" stroke="#d4d8dc" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-                        <path class="steam-particle" d="M 497 252 Q 492 242 497 232" 
-                              fill="none" stroke="#d4d8dc" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
-                        <path class="steam-particle" d="M 503 252 Q 508 242 503 232" 
+                        <path class="steam-particle" d="M 500 170 Q 505 150 500 130" 
+                              fill="none" stroke="#d4d8dc" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+                        <path class="steam-particle" d="M 520 170 Q 525 150 520 130" 
+                              fill="none" stroke="#d4d8dc" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+                        <path class="steam-particle" d="M 490 172 Q 485 152 490 132" 
                               fill="none" stroke="#d4d8dc" stroke-width="2.2" stroke-linecap="round" opacity="0.6"/>
+                        <path class="steam-particle" d="M 510 172 Q 515 152 510 132" 
+                              fill="none" stroke="#d4d8dc" stroke-width="2.8" stroke-linecap="round" opacity="0.6"/>
+                        <path class="steam-particle" d="M 495 168 Q 490 148 495 128" 
+                              fill="none" stroke="#d4d8dc" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                        <path class="steam-particle" d="M 505 168 Q 510 148 505 128" 
+                              fill="none" stroke="#d4d8dc" stroke-width="2.4" stroke-linecap="round" opacity="0.6"/>
                     </g>
                 </g>
 
