@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Chai Glass - Seasonal Animations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* ===== THEME BACKGROUNDS ===== */
+        .theme-summer {
+            background: linear-gradient(180deg, #87CEEB 0%, #F4A460 100%);
+        }
+
+        .theme-winter {
+            background: linear-gradient(180deg, #B0C4DE 0%, #E0E8F0 100%);
+        }
+
+        .theme-spring {
+            background: linear-gradient(180deg, #87CEEB 0%, #98FB98 100%);
+        }
+
+        .theme-autumn {
+            background: linear-gradient(180deg, #CD853F 0%, #DEB887 100%);
+        }
+
+        .theme-space {
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #000000 100%);
+        }
+
+        /* ===== THEME SELECTOR UI ===== */
+        .theme-selector {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-btn {
+            padding: 10px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+            color: #333;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .theme-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-btn.active {
+            background: rgba(255, 255, 255, 0.6);
+            border-color: rgba(255, 255, 255, 0.8);
+            color: #000;
+        }
+
+        /* ===== ANIMATION LAYERS ===== */
+        .animation-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* ===== GLASS CONTAINER ===== */
+        .glass-container {
+            position: relative;
+            z-index: 10;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
+        }
+
+        /* ===== STEAM ANIMATIONS ===== */
+        .steam-container {
+            position: absolute;
+            width: 200px;
+            height: 400px;
+            top: -350px;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .steam {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            opacity: 0;
+            animation: steam-rise 4s ease-in-out infinite;
+        }
+
+        .steam:nth-child(1) { animation-delay: 0s; left: 45%; }
+        .steam:nth-child(2) { animation-delay: 0.8s; left: 50%; }
+        .steam:nth-child(3) { animation-delay: 1.6s; left: 55%; }
+        .steam:nth-child(4) { animation-delay: 2.4s; left: 48%; }
+        .steam:nth-child(5) { animation-delay: 3.2s; left: 52%; }
+
+        @keyframes steam-rise {
+            0% {
+                transform: translateY(0) translateX(0) scaleX(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-200px) translateX(15px) scaleX(1.5);
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-400px) translateX(-10px) scaleX(2);
+                opacity: 0;
+            }
+        }
+
+        /* Winter: thicker steam */
+        .theme-winter .steam {
+            width: 6px;
+            opacity: 0;
+        }
+
+        .theme-winter .steam {
+            animation: steam-rise-thick 4s ease-in-out infinite;
+        }
+
+        @keyframes steam-rise-thick {
+            0% {
+                transform: translateY(0) translateX(0) scaleX(1.2);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(-200px) translateX(15px) scaleX(2);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-400px) translateX(-10px) scaleX(2.5);
+                opacity: 0;
+            }
+        }
+
+        /* ===== SUMMER ANIMATIONS ===== */
+        .heat-shimmer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, 
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0) 100%);
+            animation: shimmer 3s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        .theme-summer .heat-shimmer {
+            opacity: 1;
+        }
+
+        @keyframes shimmer {
+            0%, 100% {
+                transform: translateY(0) scaleY(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-20px) scaleY(1.1);
+                opacity: 0.6;
+            }
+        }
+
+        .sun-glow {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 255, 100, 0.4) 0%, transparent 70%);
+            animation: pulse-glow 4s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        .theme-summer .sun-glow {
+            opacity: 1;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.4; }
+            50% { transform: translateX(-50%) scale(1.2); opacity: 0.6; }
+        }
+
+        .droplet {
+            position: absolute;
+            width: 6px;
+            height: 12px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(173, 216, 230, 0.6) 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0;
+            animation: droplet-fall 3s ease-in infinite;
+        }
+
+        .theme-summer .droplet {
+            opacity: 1;
+        }
+
+        @keyframes droplet-fall {
+            0% {
+                transform: translateY(0) scaleY(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(250px) scaleY(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* ===== WINTER ANIMATIONS ===== */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: #fff;
+            font-size: 20px;
+            opacity: 0;
+            animation: snowfall 8s linear infinite;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+        }
+
+        .theme-winter .snowflake {
+            opacity: 1;
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ===== SPRING ANIMATIONS ===== */
+        .leaf-sprout {
+            position: absolute;
+            width: 40px;
+            height: 60px;
+            background: linear-gradient(135deg, #90EE90 0%, #228B22 100%);
+            border-radius: 0 100% 0 100%;
+            opacity: 0;
+            transform-origin: bottom center;
+            animation: sprout-grow 4s ease-out infinite;
+        }
+
+        .theme-spring .leaf-sprout {
+            opacity: 1;
+        }
+
+        @keyframes sprout-grow {
+            0% {
+                transform: scale(0) rotate(-45deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(0.8) rotate(5deg);
+                opacity: 0;
+            }
+        }
+
+        .bird {
+            position: absolute;
+            width: 30px;
+            height: 20px;
+            opacity: 0;
+            animation: bird-fly 12s linear infinite;
+        }
+
+        .theme-spring .bird {
+            opacity: 1;
+        }
+
+        @keyframes bird-fly {
+            0% {
+                transform: translateX(-100px) translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px)) translateY(-50px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* ===== AUTUMN ANIMATIONS ===== */
+        .autumn-leaf {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #FF8C00 0%, #8B4513 100%);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            opacity: 0;
+            animation: leaf-fall 8s ease-in infinite;
+        }
+
+        .theme-autumn .autumn-leaf {
+            opacity: 1;
+        }
+
+        @keyframes leaf-fall {
+            0% {
+                transform: translateY(-50px) rotate(0deg) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* ===== SPACE ANIMATIONS ===== */
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        .theme-space .star {
+            opacity: 1;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        .star.moving {
+            animation: star-move 20s linear infinite, twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes star-move {
+            0% {
+                transform: translateX(0) translateY(0);
+            }
+            100% {
+                transform: translateX(100px) translateY(50px);
+            }
+        }
+    </style>
+</head>
+<body class="theme-summer">
+
+    <!-- Theme Selector -->
+    <div class="theme-selector">
+        <button class="theme-btn active" data-theme="summer">🌞 Summer</button>
+        <button class="theme-btn" data-theme="winter">❄️ Winter</button>
+        <button class="theme-btn" data-theme="spring">🌸 Spring</button>
+        <button class="theme-btn" data-theme="autumn">🍂 Autumn</button>
+        <button class="theme-btn" data-theme="space">🌌 Space</button>
+    </div>
+
+    <!-- Animation Layers -->
+    <div class="animation-layer" id="animationLayer">
+        <!-- Summer elements -->
+        <div class="sun-glow"></div>
+        <div class="heat-shimmer"></div>
+        
+        <!-- Dynamic particles will be added here by JS -->
+    </div>
+
+    <!-- Chai Glass with Steam -->
+    <div class="glass-container">
+        <!-- Steam layers -->
+        <div class="steam-container">
+            <svg class="steam" viewBox="0 0 4 400" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 2 400 Q 1 350, 2 300 Q 3 250, 2 200 Q 1 150, 2 100 Q 3 50, 2 0" 
+                      stroke="rgba(255, 255, 255, 0.6)" 
+                      stroke-width="4" 
+                      fill="none"
+                      filter="url(#steam-blur)"/>
+                <defs>
+                    <filter id="steam-blur">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+                    </filter>
+                </defs>
+            </svg>
+            <svg class="steam" viewBox="0 0 4 400" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 2 400 Q 3 350, 2 300 Q 1 250, 2 200 Q 3 150, 2 100 Q 1 50, 2 0" 
+                      stroke="rgba(255, 255, 255, 0.6)" 
+                      stroke-width="4" 
+                      fill="none"
+                      filter="url(#steam-blur)"/>
+            </svg>
+            <svg class="steam" viewBox="0 0 4 400" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 2 400 Q 1 350, 2 300 Q 3 250, 2 200 Q 1 150, 2 100 Q 3 50, 2 0" 
+                      stroke="rgba(255, 255, 255, 0.6)" 
+                      stroke-width="4" 
+                      fill="none"
+                      filter="url(#steam-blur)"/>
+            </svg>
+            <svg class="steam" viewBox="0 0 4 400" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 2 400 Q 2 350, 2 300 Q 2 250, 2 200 Q 2 150, 2 100 Q 2 50, 2 0" 
+                      stroke="rgba(255, 255, 255, 0.6)" 
+                      stroke-width="4" 
+                      fill="none"
+                      filter="url(#steam-blur)"/>
+            </svg>
+            <svg class="steam" viewBox="0 0 4 400" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 2 400 Q 3 350, 2 300 Q 1 250, 2 200 Q 3 150, 2 100 Q 1 50, 2 0" 
+                      stroke="rgba(255, 255, 255, 0.6)" 
+                      stroke-width="4" 
+                      fill="none"
+                      filter="url(#steam-blur)"/>
+            </svg>
+        </div>
+
+        <!-- Indian Chai Glass (Realistic Cut-Glass) -->
+        <svg width="200" height="280" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- Glass gradients -->
+                <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:rgba(255,255,255,0.3);stop-opacity:1" />
+                    <stop offset="30%" style="stop-color:rgba(255,255,255,0.1);stop-opacity:1" />
+                    <stop offset="70%" style="stop-color:rgba(200,200,200,0.2);stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:rgba(255,255,255,0.4);stop-opacity:1" />
+                </linearGradient>
+                
+                <!-- Chai liquid gradient -->
+                <linearGradient id="chaiGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#A0522D;stop-opacity:0.95" />
+                    <stop offset="50%" style="stop-color:#8B4513;stop-opacity:0.95" />
+                    <stop offset="100%" style="stop-color:#654321;stop-opacity:0.95" />
+                </linearGradient>
+
+                <!-- Reflection gradient -->
+                <linearGradient id="reflectionGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:rgba(255,255,255,0.8);stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:rgba(255,255,255,0);stop-opacity:1" />
+                </linearGradient>
+
+                <!-- Shadow filter -->
+                <filter id="glassBlur">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
+                </filter>
+            </defs>
+
+            <!-- Glass base (thick bottom) -->
+            <ellipse cx="100" cy="265" rx="55" ry="12" fill="rgba(200, 200, 200, 0.4)" opacity="0.6"/>
+            <ellipse cx="100" cy="263" rx="55" ry="10" fill="rgba(230, 230, 230, 0.5)"/>
+
+            <!-- Main glass body with vertical ridges -->
+            <!-- Ridge 1 (left) -->
+            <path d="M 50 260 L 60 80 L 62 80 L 52 260 Z" fill="rgba(255, 255, 255, 0.15)"/>
+            <!-- Ridge 2 -->
+            <path d="M 65 260 L 72 80 L 74 80 L 67 260 Z" fill="rgba(200, 200, 200, 0.2)"/>
+            <!-- Ridge 3 -->
+            <path d="M 80 260 L 84 80 L 86 80 L 82 260 Z" fill="rgba(255, 255, 255, 0.15)"/>
+            <!-- Ridge 4 (center) -->
+            <path d="M 95 260 L 96 80 L 98 80 L 97 260 Z" fill="rgba(200, 200, 200, 0.2)"/>
+            <!-- Ridge 5 -->
+            <path d="M 110 260 L 104 80 L 106 80 L 112 260 Z" fill="rgba(255, 255, 255, 0.15)"/>
+            <!-- Ridge 6 -->
+            <path d="M 125 260 L 116 80 L 118 80 L 127 260 Z" fill="rgba(200, 200, 200, 0.2)"/>
+            <!-- Ridge 7 (right) -->
+            <path d="M 140 260 L 128 80 L 130 80 L 142 260 Z" fill="rgba(255, 255, 255, 0.15)"/>
+
+            <!-- Glass outer shell (with slight taper) -->
+            <path d="M 45 260 Q 45 255, 47 250 L 65 85 Q 65 75, 70 70 L 130 70 Q 135 75, 135 85 L 153 250 Q 155 255, 155 260 Z" 
+                  fill="url(#glassGradient)" 
+                  stroke="rgba(255, 255, 255, 0.3)" 
+                  stroke-width="1.5"
+                  opacity="0.7"/>
+
+            <!-- Chai liquid inside glass -->
+            <path d="M 48 250 L 66 150 L 134 150 L 152 250 Z" fill="url(#chaiGradient)"/>
+            
+            <!-- Chai surface (ellipse at top) -->
+            <ellipse cx="100" cy="150" rx="34" ry="8" fill="#A0522D" opacity="0.9"/>
+            
+            <!-- Glass rim highlight -->
+            <ellipse cx="100" cy="70" rx="32" ry="6" fill="none" stroke="rgba(255, 255, 255, 0.6)" stroke-width="2"/>
+            
+            <!-- Primary reflection on glass (left side) -->
+            <ellipse cx="75" cy="160" rx="12" ry="60" fill="url(#reflectionGradient)" opacity="0.5"/>
+            
+            <!-- Secondary highlight (right edge) -->
+            <path d="M 145 90 Q 146 120, 150 200 Q 151 220, 152 240" 
+                  stroke="rgba(255, 255, 255, 0.4)" 
+                  stroke-width="3" 
+                  fill="none"
+                  opacity="0.6"/>
+
+            <!-- Cut-glass sparkle points -->
+            <circle cx="70" cy="120" r="2" fill="white" opacity="0.8"/>
+            <circle cx="85" cy="180" r="2" fill="white" opacity="0.7"/>
+            <circle cx="115" cy="140" r="2" fill="white" opacity="0.8"/>
+            <circle cx="130" cy="200" r="2" fill="white" opacity="0.7"/>
+            
+            <!-- Glass top opening -->
+            <ellipse cx="100" cy="70" rx="30" ry="5" fill="rgba(100, 100, 100, 0.3)"/>
+        </svg>
+    </div>
+
+    <script>
+        // Theme switching logic
+        const body = document.body;
+        const themeButtons = document.querySelectorAll('.theme-btn');
+        const animationLayer = document.getElementById('animationLayer');
+
+        // Create particles for each theme
+        function createParticles(theme) {
+            // Clear existing dynamic particles
+            const existingParticles = animationLayer.querySelectorAll('.dynamic-particle');
+            existingParticles.forEach(p => p.remove());
+
+            switch(theme) {
+                case 'summer':
+                    // Create condensation droplets on glass
+                    for(let i = 0; i < 8; i++) {
+                        const droplet = document.createElement('div');
+                        droplet.className = 'droplet dynamic-particle';
+                        droplet.style.left = `calc(50% + ${-30 + Math.random() * 60}px)`;
+                        droplet.style.top = `calc(50% - ${50 + Math.random() * 100}px)`;
+                        droplet.style.animationDelay = `${Math.random() * 3}s`;
+                        animationLayer.appendChild(droplet);
+                    }
+                    break;
+
+                case 'winter':
+                    // Create snowflakes
+                    for(let i = 0; i < 50; i++) {
+                        const snowflake = document.createElement('div');
+                        snowflake.className = 'snowflake dynamic-particle';
+                        snowflake.textContent = '❄';
+                        snowflake.style.left = `${Math.random() * 100}%`;
+                        snowflake.style.fontSize = `${10 + Math.random() * 20}px`;
+                        snowflake.style.animationDelay = `${Math.random() * 8}s`;
+                        snowflake.style.animationDuration = `${6 + Math.random() * 4}s`;
+                        animationLayer.appendChild(snowflake);
+                    }
+                    break;
+
+                case 'spring':
+                    // Create sprouting leaves
+                    for(let i = 0; i < 6; i++) {
+                        const leaf = document.createElement('div');
+                        leaf.className = 'leaf-sprout dynamic-particle';
+                        const side = i % 2 === 0 ? 'left' : 'right';
+                        leaf.style[side] = `${10 + Math.random() * 20}%`;
+                        leaf.style.bottom = `${20 + Math.random() * 40}%`;
+                        leaf.style.animationDelay = `${Math.random() * 4}s`;
+                        animationLayer.appendChild(leaf);
+                    }
+
+                    // Create flying birds
+                    for(let i = 0; i < 3; i++) {
+                        const bird = document.createElement('div');
+                        bird.className = 'bird dynamic-particle';
+                        bird.textContent = '🐦';
+                        bird.style.top = `${20 + Math.random() * 30}%`;
+                        bird.style.animationDelay = `${i * 4}s`;
+                        bird.style.animationDuration = `${10 + Math.random() * 4}s`;
+                        animationLayer.appendChild(bird);
+                    }
+                    break;
+
+                case 'autumn':
+                    // Create falling leaves
+                    for(let i = 0; i < 40; i++) {
+                        const leaf = document.createElement('div');
+                        leaf.className = 'autumn-leaf dynamic-particle';
+                        leaf.style.left = `${Math.random() * 100}%`;
+                        leaf.style.animationDelay = `${Math.random() * 8}s`;
+                        leaf.style.animationDuration = `${6 + Math.random() * 4}s`;
+                        
+                        // Vary leaf colors
+                        const colors = [
+                            'linear-gradient(135deg, #FF8C00 0%, #8B4513 100%)',
+                            'linear-gradient(135deg, #FF6347 0%, #8B0000 100%)',
+                            'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)',
+                            'linear-gradient(135deg, #CD853F 0%, #8B4513 100%)'
+                        ];
+                        leaf.style.background = colors[Math.floor(Math.random() * colors.length)];
+                        animationLayer.appendChild(leaf);
+                    }
+                    break;
+
+                case 'space':
+                    // Create star field
+                    for(let i = 0; i < 200; i++) {
+                        const star = document.createElement('div');
+                        star.className = 'star dynamic-particle';
+                        star.style.left = `${Math.random() * 100}%`;
+                        star.style.top = `${Math.random() * 100}%`;
+                        star.style.animationDelay = `${Math.random() * 3}s`;
+                        
+                        // Some stars have size variation
+                        const size = Math.random() * 3;
+                        star.style.width = `${size}px`;
+                        star.style.height = `${size}px`;
+                        
+                        // Add parallax movement to some stars
+                        if(Math.random() > 0.7) {
+                            star.classList.add('moving');
+                        }
+                        
+                        animationLayer.appendChild(star);
+                    }
+                    break;
+            }
+        }
+
+        // Theme button click handlers
+        themeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const theme = button.dataset.theme;
+                
+                // Remove all theme classes
+                body.className = '';
+                body.classList.add(`theme-${theme}`);
+                
+                // Update active button
+                themeButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Create particles for new theme
+                createParticles(theme);
+            });
+        });
+
+        // Initialize with summer theme
+        createParticles('summer');
+    </script>
+</body>
+</html>
