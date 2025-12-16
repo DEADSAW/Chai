@@ -95,12 +95,12 @@
         }
 
         .left-leg {
-            transform-origin: 400px 280px; /* Hip joint position */
+            transform-origin: 402px 280px; /* Hip joint position (center of leg at x=395+7) */
             animation: leg-swing 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
         }
 
         .right-leg {
-            transform-origin: 420px 280px; /* Hip joint position */
+            transform-origin: 422px 280px; /* Hip joint position (center of leg at x=415+7) */
             animation: leg-swing 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
             animation-delay: 0.15s; /* Slight offset for natural asymmetry */
         }
@@ -189,8 +189,8 @@
 
                 <!-- Chai cup on table -->
                 <g class="chai-cup">
-                    <!-- Cup body -->
-                    <path d="M 480 260 L 470 290 L 530 290 L 520 260 Z" fill="url(#cupGradient)"/>
+                    <!-- Cup body - trapezoid shape (wider at bottom for perspective) -->
+                    <path d="M 479 260 L 470 290 L 530 290 L 521 260 Z" fill="url(#cupGradient)"/>
                     <!-- Cup rim highlight -->
                     <ellipse cx="500" cy="260" rx="21" ry="4" fill="#e8c9a0"/>
                     <!-- Chai liquid inside -->
