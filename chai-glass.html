@@ -43,6 +43,10 @@
             background: radial-gradient(ellipse at center, #1a1a2e 0%, #000000 100%);
         }
 
+        .theme-monsoon {
+            background: linear-gradient(180deg, #4A5568 0%, #2D3748 100%);
+        }
+
         /* ===== THEME SELECTOR UI ===== */
         .theme-selector {
             position: absolute;
@@ -117,32 +121,44 @@
             position: absolute;
             bottom: 0;
             left: 50%;
-            width: 4px;
+            width: 6px;
             height: 100%;
             opacity: 0;
-            animation: steam-rise 4s ease-in-out infinite;
+            animation: steam-rise 5s ease-in-out infinite;
+            filter: blur(3px);
         }
 
-        .steam:nth-child(1) { animation-delay: 0s; left: 45%; }
-        .steam:nth-child(2) { animation-delay: 0.8s; left: 50%; }
-        .steam:nth-child(3) { animation-delay: 1.6s; left: 55%; }
-        .steam:nth-child(4) { animation-delay: 2.4s; left: 48%; }
-        .steam:nth-child(5) { animation-delay: 3.2s; left: 52%; }
+        .steam:nth-child(1) { animation-delay: 0s; left: 42%; }
+        .steam:nth-child(2) { animation-delay: 1s; left: 48%; }
+        .steam:nth-child(3) { animation-delay: 2s; left: 52%; }
+        .steam:nth-child(4) { animation-delay: 3s; left: 58%; }
+        .steam:nth-child(5) { animation-delay: 4s; left: 50%; }
+        .steam:nth-child(6) { animation-delay: 1.5s; left: 45%; }
+        .steam:nth-child(7) { animation-delay: 2.5s; left: 55%; }
 
         @keyframes steam-rise {
             0% {
                 transform: translateY(0) translateX(0) scaleX(1);
                 opacity: 0;
             }
-            10% {
+            15% {
+                opacity: 0.7;
+                transform: translateY(-80px) translateX(12px) scaleX(1.2);
+            }
+            35% {
+                transform: translateY(-160px) translateX(-8px) scaleX(1.5);
                 opacity: 0.6;
             }
-            50% {
-                transform: translateY(-200px) translateX(15px) scaleX(1.5);
+            55% {
+                transform: translateY(-240px) translateX(15px) scaleX(1.8);
                 opacity: 0.4;
             }
+            75% {
+                transform: translateY(-320px) translateX(-10px) scaleX(2.2);
+                opacity: 0.2;
+            }
             100% {
-                transform: translateY(-400px) translateX(-10px) scaleX(2);
+                transform: translateY(-400px) translateX(5px) scaleX(2.5);
                 opacity: 0;
             }
         }
@@ -416,6 +432,123 @@
                 transform: translateX(100px) translateY(50px);
             }
         }
+
+        /* ===== MONSOON/RAIN ANIMATIONS ===== */
+        .raindrop {
+            position: absolute;
+            width: 2px;
+            height: 25px;
+            background: linear-gradient(180deg, rgba(173, 216, 230, 0.9) 0%, rgba(100, 149, 237, 0.4) 100%);
+            opacity: 0;
+            animation: rainfall 1s linear infinite;
+            border-radius: 0 0 50% 50%;
+        }
+
+        .theme-monsoon .raindrop {
+            opacity: 1;
+        }
+
+        @keyframes rainfall {
+            0% {
+                transform: translateY(-50px);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0.3;
+            }
+        }
+
+        .rain-splash {
+            position: absolute;
+            width: 10px;
+            height: 3px;
+            background: rgba(173, 216, 230, 0.7);
+            border-radius: 50%;
+            opacity: 0;
+            animation: splash 0.5s ease-out infinite;
+        }
+
+        .theme-monsoon .rain-splash {
+            opacity: 1;
+        }
+
+        .puddle {
+            position: absolute;
+            bottom: 0;
+            width: 60px;
+            height: 5px;
+            background: rgba(100, 149, 237, 0.3);
+            border-radius: 50%;
+            opacity: 0;
+            animation: puddle-grow 2s ease-in-out infinite;
+        }
+
+        .theme-monsoon .puddle {
+            opacity: 1;
+        }
+
+        @keyframes puddle-grow {
+            0%, 100% {
+                transform: scaleX(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scaleX(1.2);
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes splash {
+            0% {
+                transform: scale(0);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* ===== BOTTOM TICKER (NEWS STYLE) ===== */
+        .ticker-wrap {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 12px 0;
+            overflow: hidden;
+            z-index: 2000;
+            border-top: 3px solid rgba(210, 180, 140, 0.8);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .ticker {
+            display: flex;
+            white-space: nowrap;
+            animation: scroll-left 20s linear infinite;
+        }
+
+        .ticker-item {
+            font-size: 28px;
+            font-weight: 600;
+            font-style: italic;
+            color: #D4A574;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            padding: 0 80px;
+            letter-spacing: 2px;
+        }
+
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
     </style>
 </head>
 <body class="theme-summer">
@@ -423,6 +556,7 @@
     <!-- Theme Selector -->
     <div class="theme-selector">
         <button class="theme-btn active" data-theme="summer">🌞 Summer</button>
+        <button class="theme-btn" data-theme="monsoon">🌧️ Monsoon</button>
         <button class="theme-btn" data-theme="winter">❄️ Winter</button>
         <button class="theme-btn" data-theme="spring">🌸 Spring</button>
         <button class="theme-btn" data-theme="autumn">🍂 Autumn</button>
@@ -482,93 +616,154 @@
                       fill="none"
                       filter="url(#steam-blur)"/>
             </svg>
+            <svg class="steam" viewBox="0 0 4 400" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 2 400 Q 0 350, 3 300 Q 0 250, 3 200 Q 0 150, 3 100 Q 1 50, 2 0" 
+                      stroke="rgba(255, 255, 255, 0.5)" 
+                      stroke-width="4" 
+                      fill="none"
+                      filter="url(#steam-blur)"/>
+            </svg>
+            <svg class="steam" viewBox="0 0 4 400" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 2 400 Q 4 350, 1 300 Q 4 250, 1 200 Q 4 150, 1 100 Q 2 50, 2 0" 
+                      stroke="rgba(255, 255, 255, 0.5)" 
+                      stroke-width="4" 
+                      fill="none"
+                      filter="url(#steam-blur)"/>
+            </svg>
         </div>
 
-        <!-- Indian Chai Glass (Realistic Cut-Glass) -->
-        <svg width="200" height="280" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+        <!-- Indian Chai Glass (Based on Reference Images) -->
+        <svg width="220" height="300" viewBox="0 0 220 300" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <!-- Glass gradients -->
-                <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:rgba(255,255,255,0.3);stop-opacity:1" />
-                    <stop offset="30%" style="stop-color:rgba(255,255,255,0.1);stop-opacity:1" />
-                    <stop offset="70%" style="stop-color:rgba(200,200,200,0.2);stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:rgba(255,255,255,0.4);stop-opacity:1" />
+                <!-- Glass body gradient -->
+                <linearGradient id="glassBody" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:rgba(240,245,250,0.4);stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:rgba(200,210,220,0.3);stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:rgba(240,245,250,0.4);stop-opacity:1" />
                 </linearGradient>
                 
-                <!-- Chai liquid gradient -->
+                <!-- Chai liquid gradient (realistic brown from images) -->
                 <linearGradient id="chaiGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#A0522D;stop-opacity:0.95" />
-                    <stop offset="50%" style="stop-color:#8B4513;stop-opacity:0.95" />
-                    <stop offset="100%" style="stop-color:#654321;stop-opacity:0.95" />
+                    <stop offset="0%" style="stop-color:#D4A574;stop-opacity:0.98" />
+                    <stop offset="30%" style="stop-color:#C89968;stop-opacity:0.98" />
+                    <stop offset="100%" style="stop-color:#B8864D;stop-opacity:0.98" />
                 </linearGradient>
 
-                <!-- Reflection gradient -->
-                <linearGradient id="reflectionGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:rgba(255,255,255,0.8);stop-opacity:1" />
+                <!-- Glass reflection gradient -->
+                <linearGradient id="glassReflection" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:rgba(255,255,255,0.9);stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:rgba(255,255,255,0.4);stop-opacity:1" />
                     <stop offset="100%" style="stop-color:rgba(255,255,255,0);stop-opacity:1" />
                 </linearGradient>
 
-                <!-- Shadow filter -->
-                <filter id="glassBlur">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
-                </filter>
+                <!-- Ridge highlight gradient -->
+                <linearGradient id="ridgeHighlight" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:rgba(255,255,255,0.6);stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:rgba(255,255,255,0.1);stop-opacity:1" />
+                </linearGradient>
+
+                <!-- Glass rim gradient -->
+                <radialGradient id="rimGradient">
+                    <stop offset="0%" style="stop-color:rgba(200,200,200,0.5);stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:rgba(255,255,255,0.3);stop-opacity:1" />
+                </radialGradient>
             </defs>
 
-            <!-- Glass base (thick bottom) -->
-            <ellipse cx="100" cy="265" rx="55" ry="12" fill="rgba(200, 200, 200, 0.4)" opacity="0.6"/>
-            <ellipse cx="100" cy="263" rx="55" ry="10" fill="rgba(230, 230, 230, 0.5)"/>
+            <!-- Glass base (small bottom like in reference) -->
+            <ellipse cx="110" cy="282" rx="42" ry="10" fill="rgba(180, 190, 200, 0.5)" opacity="0.7"/>
+            <ellipse cx="110" cy="280" rx="42" ry="8" fill="rgba(210, 220, 230, 0.6)"/>
+            <ellipse cx="110" cy="278" rx="38" ry="6" fill="rgba(230, 235, 240, 0.5)"/>
 
-            <!-- Main glass body with vertical ridges -->
-            <!-- Ridge 1 (left) -->
-            <path d="M 50 260 L 60 80 L 62 80 L 52 260 Z" fill="rgba(255, 255, 255, 0.15)"/>
-            <!-- Ridge 2 -->
-            <path d="M 65 260 L 72 80 L 74 80 L 67 260 Z" fill="rgba(200, 200, 200, 0.2)"/>
-            <!-- Ridge 3 -->
-            <path d="M 80 260 L 84 80 L 86 80 L 82 260 Z" fill="rgba(255, 255, 255, 0.15)"/>
-            <!-- Ridge 4 (center) -->
-            <path d="M 95 260 L 96 80 L 98 80 L 97 260 Z" fill="rgba(200, 200, 200, 0.2)"/>
-            <!-- Ridge 5 -->
-            <path d="M 110 260 L 104 80 L 106 80 L 112 260 Z" fill="rgba(255, 255, 255, 0.15)"/>
-            <!-- Ridge 6 -->
-            <path d="M 125 260 L 116 80 L 118 80 L 127 260 Z" fill="rgba(200, 200, 200, 0.2)"/>
-            <!-- Ridge 7 (right) -->
-            <path d="M 140 260 L 128 80 L 130 80 L 142 260 Z" fill="rgba(255, 255, 255, 0.15)"/>
+            <!-- Vertical cut-glass ridges (wide top, narrow bottom) -->
+            <!-- Left section ridges -->
+            <path d="M 74 275 L 55 90 L 57 90 L 76 275 Z" fill="url(#ridgeHighlight)" opacity="0.7"/>
+            <path d="M 70 275 L 60 90 L 62 90 L 72 275 Z" fill="rgba(200, 200, 200, 0.3)"/>
+            <path d="M 66 275 L 65 90 L 67 90 L 68 275 Z" fill="url(#ridgeHighlight)" opacity="0.7"/>
+            <path d="M 62 275 L 70 90 L 72 90 L 64 275 Z" fill="rgba(200, 200, 200, 0.3)"/>
+            <path d="M 58 275 L 75 90 L 77 90 L 60 275 Z" fill="url(#ridgeHighlight)" opacity="0.7"/>
+            
+            <!-- Center-left section ridges -->
+            <path d="M 54 275 L 80 90 L 82 90 L 56 275 Z" fill="rgba(200, 200, 200, 0.3)"/>
+            <path d="M 50 275 L 85 90 L 87 90 L 52 275 Z" fill="url(#ridgeHighlight)" opacity="0.7"/>
+            <path d="M 46 275 L 90 90 L 92 90 L 48 275 Z" fill="rgba(200, 200, 200, 0.3)"/>
+            <path d="M 42 275 L 95 90 L 97 90 L 44 275 Z" fill="url(#ridgeHighlight)" opacity="0.7"/>
+            
+            <!-- Center ridges -->
+            <path d="M 104 275 L 100 90 L 102 90 L 106 275 Z" fill="rgba(200, 200, 200, 0.3)"/>
+            <path d="M 108 275 L 105 90 L 107 90 L 110 275 Z" fill="url(#ridgeHighlight)" opacity="0.7"/>
+            <path d="M 112 275 L 110 90 L 112 90 L 114 275 Z" fill="rgba(200, 200, 200, 0.3)"/>
+            <path d="M 116 275 L 115 90 L 117 90 L 118 275 Z" fill="url(#ridgeHighlight)" opacity="0.7"/>
+            
+            <!-- Center-right section ridges -->
+            <path d="M 176 275 L 123 90 L 125 90 L 178 275 Z" fill="rgba(200, 200, 200, 0.3)"/>
+            <path d="M 172 275 L 130 90 L 132 90 L 174 275 Z" fill="url(#ridgeHighlight)" opacity="0.7"/>
+            <path d="M 168 275 L 135 90 L 137 90 L 170 275 Z" fill="rgba(200, 200, 200, 0.3)"/>
+            <path d="M 164 275 L 140 90 L 142 90 L 166 275 Z" fill="url(#ridgeHighlight)" opacity="0.7"/>
+            
+            <!-- Right section ridges -->
+            <path d="M 160 275 L 145 90 L 147 90 L 162 275 Z" fill="rgba(200, 200, 200, 0.3)"/>
+            <path d="M 156 275 L 150 90 L 152 90 L 158 275 Z" fill="url(#ridgeHighlight)" opacity="0.7"/>
+            <path d="M 152 275 L 155 90 L 157 90 L 154 275 Z" fill="rgba(200, 200, 200, 0.3)"/>
+            <path d="M 148 275 L 160 90 L 162 90 L 150 275 Z" fill="url(#ridgeHighlight)" opacity="0.7"/>
+            <path d="M 144 275 L 165 90 L 167 90 L 146 275 Z" fill="rgba(200, 200, 200, 0.3)"/>
 
-            <!-- Glass outer shell (with slight taper) -->
-            <path d="M 45 260 Q 45 255, 47 250 L 65 85 Q 65 75, 70 70 L 130 70 Q 135 75, 135 85 L 153 250 Q 155 255, 155 260 Z" 
-                  fill="url(#glassGradient)" 
-                  stroke="rgba(255, 255, 255, 0.3)" 
-                  stroke-width="1.5"
-                  opacity="0.7"/>
-
-            <!-- Chai liquid inside glass -->
-            <path d="M 48 250 L 66 150 L 134 150 L 152 250 Z" fill="url(#chaiGradient)"/>
-            
-            <!-- Chai surface (ellipse at top) -->
-            <ellipse cx="100" cy="150" rx="34" ry="8" fill="#A0522D" opacity="0.9"/>
-            
-            <!-- Glass rim highlight -->
-            <ellipse cx="100" cy="70" rx="32" ry="6" fill="none" stroke="rgba(255, 255, 255, 0.6)" stroke-width="2"/>
-            
-            <!-- Primary reflection on glass (left side) -->
-            <ellipse cx="75" cy="160" rx="12" ry="60" fill="url(#reflectionGradient)" opacity="0.5"/>
-            
-            <!-- Secondary highlight (right edge) -->
-            <path d="M 145 90 Q 146 120, 150 200 Q 151 220, 152 240" 
+            <!-- Glass outer shell (wide top, narrow bottom) -->
+            <path d="M 40 275 L 52 90 Q 52 85, 54 82 L 166 82 Q 168 85, 168 90 L 180 275 Z" 
+                  fill="url(#glassBody)" 
                   stroke="rgba(255, 255, 255, 0.4)" 
-                  stroke-width="3" 
-                  fill="none"
+                  stroke-width="2"
                   opacity="0.6"/>
 
-            <!-- Cut-glass sparkle points -->
-            <circle cx="70" cy="120" r="2" fill="white" opacity="0.8"/>
-            <circle cx="85" cy="180" r="2" fill="white" opacity="0.7"/>
-            <circle cx="115" cy="140" r="2" fill="white" opacity="0.8"/>
-            <circle cx="130" cy="200" r="2" fill="white" opacity="0.7"/>
+            <!-- Chai liquid filling (realistic brown) -->
+            <path d="M 42 270 L 54 165 L 166 165 L 178 270 Z" fill="url(#chaiGradient)"/>
             
-            <!-- Glass top opening -->
-            <ellipse cx="100" cy="70" rx="30" ry="5" fill="rgba(100, 100, 100, 0.3)"/>
+            <!-- Chai surface ellipse -->
+            <ellipse cx="110" cy="165" rx="56" ry="10" fill="#D4A574" opacity="0.95"/>
+            
+            <!-- Chai foam and bubbles on surface -->
+            <ellipse cx="95" cy="163" rx="5" ry="2.5" fill="rgba(255, 245, 230, 0.7)"/>
+            <ellipse cx="120" cy="164" rx="4" ry="2" fill="rgba(255, 245, 230, 0.6)"/>
+            <ellipse cx="108" cy="166" rx="3" ry="1.5" fill="rgba(255, 245, 230, 0.5)"/>
+            <circle cx="130" cy="166" r="1.5" fill="rgba(255, 245, 230, 0.6)"/>
+            <circle cx="85" cy="165" r="1" fill="rgba(255, 245, 230, 0.5)"/>
+            
+            <!-- Glass rim (wide top opening) -->
+            <ellipse cx="110" cy="82" rx="58" ry="8" fill="url(#rimGradient)" opacity="0.8"/>
+            <ellipse cx="110" cy="82" rx="58" ry="7" fill="none" stroke="rgba(255, 255, 255, 0.7)" stroke-width="2.5"/>
+            
+            <!-- Main glass reflection (left side) -->
+            <ellipse cx="70" cy="180" rx="14" ry="80" fill="url(#glassReflection)" opacity="0.6"/>
+            
+            <!-- Secondary reflection (right edge) -->
+            <path d="M 172 95 Q 175 140, 178 200 Q 179 230, 179 260" 
+                  stroke="rgba(255, 255, 255, 0.5)" 
+                  stroke-width="4" 
+                  fill="none"
+                  opacity="0.7"/>
+
+            <!-- Cut-glass sparkles (more realistic) -->
+            <circle cx="65" cy="130" r="2.5" fill="white" opacity="0.9"/>
+            <circle cx="75" cy="195" r="2" fill="white" opacity="0.8"/>
+            <circle cx="140" cy="150" r="2.5" fill="white" opacity="0.9"/>
+            <circle cx="155" cy="210" r="2" fill="white" opacity="0.8"/>
+            <circle cx="80" cy="240" r="1.5" fill="white" opacity="0.7"/>
+            <circle cx="148" cy="180" r="1.5" fill="white" opacity="0.7"/>
+            
+            <!-- Glass top opening (inner dark) -->
+            <ellipse cx="110" cy="82" rx="54" ry="6" fill="rgba(90, 80, 70, 0.4)"/>
         </svg>
+    </div>
+
+    <!-- Bottom Ticker -->
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <span class="ticker-item">Chai chai chai chaiaaaaaaaiyeh chaiiiiyy</span>
+            <span class="ticker-item">Chai chai chai chaiaaaaaaaiyeh chaiiiiyy</span>
+            <span class="ticker-item">Chai chai chai chaiaaaaaaaiyeh chaiiiiyy</span>
+            <span class="ticker-item">Chai chai chai chaiaaaaaaaiyeh chaiiiiyy</span>
+            <span class="ticker-item">Chai chai chai chaiaaaaaaaiyeh chaiiiiyy</span>
+            <span class="ticker-item">Chai chai chai chaiaaaaaaaiyeh chaiiiiyy</span>
+        </div>
     </div>
 
     <script>
@@ -596,9 +791,43 @@
                     }
                     break;
 
+                case 'monsoon':
+                    // Create heavy raindrops
+                    for(let i = 0; i < 120; i++) {
+                        const rain = document.createElement('div');
+                        rain.className = 'raindrop dynamic-particle';
+                        rain.style.left = `${Math.random() * 100}%`;
+                        rain.style.animationDelay = `${Math.random() * 1.5}s`;
+                        rain.style.animationDuration = `${0.6 + Math.random() * 0.5}s`;
+                        rain.style.height = `${20 + Math.random() * 15}px`;
+                        rain.style.width = `${2 + Math.random()}px`;
+                        animationLayer.appendChild(rain);
+                    }
+                    
+                    // Create rain splashes
+                    for(let i = 0; i < 30; i++) {
+                        const splash = document.createElement('div');
+                        splash.className = 'rain-splash dynamic-particle';
+                        splash.style.left = `${Math.random() * 100}%`;
+                        splash.style.bottom = '0';
+                        splash.style.animationDelay = `${Math.random() * 0.5}s`;
+                        animationLayer.appendChild(splash);
+                    }
+                    
+                    // Create puddles
+                    for(let i = 0; i < 10; i++) {
+                        const puddle = document.createElement('div');
+                        puddle.className = 'puddle dynamic-particle';
+                        puddle.style.left = `${Math.random() * 90}%`;
+                        puddle.style.animationDelay = `${Math.random() * 2}s`;
+                        puddle.style.width = `${50 + Math.random() * 40}px`;
+                        animationLayer.appendChild(puddle);
+                    }
+                    break;
+
                 case 'winter':
-                    // Create snowflakes
-                    for(let i = 0; i < 50; i++) {
+                    // Create snowflakes only (no rain)
+                    for(let i = 0; i < 60; i++) {
                         const snowflake = document.createElement('div');
                         snowflake.className = 'snowflake dynamic-particle';
                         snowflake.textContent = '❄';
