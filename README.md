@@ -2,6 +2,8 @@
 
 A minimalist, aesthetic SVG-based animated scene created with pure HTML and CSS (no JavaScript).
 
+> **Note:** This project was created just for fun - pure banter and a love letter to chai! ☕ Sometimes the best code is written for the sheer joy of it.
+
 ![Chai Animation](https://github.com/user-attachments/assets/938fa094-4cbd-4d01-aa78-b7d3f2e9dab3)
 
 ## 🎨 Features
@@ -11,6 +13,18 @@ A minimalist, aesthetic SVG-based animated scene created with pure HTML and CSS 
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 - **No Dependencies**: Single HTML file with embedded CSS - no external libraries or JavaScript
 - **Premium Aesthetic**: Soft gradient background with smooth animations
+
+## ☕ Chai Glass (Seasonal Animations)
+
+Experience the beauty of an Indian chai glass with seasonal themes! The `chai-glass.html` file features:
+
+![Chai Glass](https://github.com/user-attachments/assets/b2b33fac-4be4-4ee7-b34e-7ab70ca52d79)
+
+- **6 Seasonal Themes**: Summer ☀️, Monsoon 🌧️, Winter ❄️, Spring 🌸, Autumn 🍂, and Space 🌌
+- **Interactive Theme Switching**: Click buttons to change the atmosphere around your chai
+- **Realistic Glass Design**: Traditional Indian cut-glass chai glass with steam rising
+- **Dynamic Particle Effects**: Each season has unique animations (snowflakes, rain, falling leaves, stars, etc.)
+- **Scrolling Ticker**: "Chai chai chai chaiaaaaaaaiyeh chaiiiiyy" - because chai deserves celebration!
 
 ## 🎬 Animations
 
@@ -23,10 +37,14 @@ A minimalist, aesthetic SVG-based animated scene created with pure HTML and CSS 
 
 ### View Locally
 
-Simply open `index.html` in any modern web browser:
+Simply open `index.html` or `chai-glass.html` in any modern web browser:
 
 ```bash
+# For the main animation
 open index.html
+
+# For the seasonal chai glass
+open chai-glass.html
 ```
 
 Or start a local server:
@@ -34,6 +52,7 @@ Or start a local server:
 ```bash
 python3 -m http.server 8080
 # Then navigate to http://localhost:8080/index.html
+# or http://localhost:8080/chai-glass.html
 ```
 
 ### GitHub Pages
@@ -86,3 +105,5 @@ Feel free to fork, modify, and use this project for your own purposes. If you cr
 ---
 
 **Made with ☕ and CSS**
+
+*This project is just fun banter - created for the pure love of chai and the joy of coding. Because sometimes, the best projects are the ones that make you smile!* 🎨✨
